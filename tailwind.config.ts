@@ -5,31 +5,19 @@ export default {
   theme: {
     screens: {
       sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
+      md: '1024px',
+      lg: '1220px',
     },
     colors: {
-      'blue': '#1fb6ff',
-      'pink': '#ff49db',
-      'orange': '#ff7849',
-      'green': '#13ce66',
-      'gray-dark': '#273444',
-      'gray': '#8492a6',
-      'gray-light': '#d3dce6',
+      transparent: 'transparent',
+      black: '#000',
+      white: '#fff',
+      primary: '#fd4b17',
+      blue: '#3b65eb'
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
-    },
-    extend: {
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
-      },
-      borderRadius: {
-        '4xl': '2rem',
-      }
     }
   },
   plugins: [],

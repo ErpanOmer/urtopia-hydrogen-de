@@ -57,12 +57,9 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
-  return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
-  );
+
+
+  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>Hello World</h1>;
 }
 
 function FeaturedCollection({

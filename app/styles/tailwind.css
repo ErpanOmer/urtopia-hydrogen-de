@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "urbane";
+        src: url("../assets/fonts/urbane-300.woff2") format("woff2"),
+             url("../assets/fonts/urbane-300.woff") format("woff");
+        font-display: auto;
+        font-style: normal;
+        font-weight: 300;
+        font-stretch: normal;
+    }
+
+    @font-face {
+        font-family: "urbane";
+        src: url("../assets/fonts/urbane-500.woff2") format("woff2"),
+             url("../assets/fonts/urbane-500.woff") format("woff");
+        font-display: auto;
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: normal;
+    }
+
+    @font-face {
+        font-family: "urbane";
+        src: url("../assets/fonts/urbane-600.woff2") format("woff2"),
+             url("../assets/fonts/urbane-600.woff") format("woff");
+        font-display: auto;
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: normal;
+    }
+}
