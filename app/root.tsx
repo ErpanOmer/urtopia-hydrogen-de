@@ -12,7 +12,6 @@ import {
   type ShouldRevalidateFunction,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.svg';
-import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
@@ -42,8 +41,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export function links() {
   return [
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: appStyles },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -69,6 +67,7 @@ export async function loader(args: LoaderFunctionArgs) {
     {
       ...deferredData,
       ...criticalData,
+      selectedLocale: storefront.i18n,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
       shop: getShopAnalytics({
         storefront,
@@ -141,8 +140,10 @@ function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
 
+  console.log(data)
+
   return (
-    <html lang="en">
+    <html lang={ data?.selectedLocale.language }>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

@@ -16,6 +16,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
+import { getLocaleFromRequest } from '~/language/index'
 
 /**
  * Export a fetch handler in module format.
@@ -113,23 +114,3 @@ export default {
     }
   },
 };
-
-function getLocaleFromRequest(request: Request): I18nLocale {
-  const defaultLocale: I18nLocale = {language: 'EN', country: 'US'};
-  const supportedLocales = {
-    ES: 'ES',
-    FR: 'FR',
-    DE: 'DE',
-    JP: 'JA',
-  } as Record<I18nLocale['country'], I18nLocale['language']>;
-
-  const url = new URL(request.url);
-  const domain = url.hostname
-    .split('.')
-    .pop()
-    ?.toUpperCase() as keyof typeof supportedLocales;
-
-  return domain && supportedLocales[domain]
-    ? {language: supportedLocales[domain], country: domain}
-    : defaultLocale;
-}

@@ -82,9 +82,9 @@ async function loadCriticalData({
   } else {
     // if no selected variant was returned from the selected options,
     // we redirect to the first variant's url with it's selected options applied
-    if (!product.selectedVariant) {
-      throw redirectToFirstVariant({product, request});
-    }
+    // if (!product.selectedVariant) {
+    //   throw redirectToFirstVariant({product, request});
+    // }
   }
 
   return {
