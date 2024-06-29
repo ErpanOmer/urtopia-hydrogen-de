@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
@@ -6,19 +7,20 @@ export default {
     screens: {
       sm: '480px',
       md: '1024px',
-      lg: '1220px',
+      lg: '1280px',
     },
-    colors: {
-      transparent: 'transparent',
-      black: '#000',
-      white: '#fff',
-      primary: '#fd4b17',
-      blue: '#3b65eb'
+    extend: {
+      fontFamily: {
+        sans: ['urbane', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        transparent: 'transparent',
+        black: '#000',
+        white: '#fff',
+        primary: '#fd4b17',
+        blue: '#3b65eb'
+      },
     },
-    fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
-    }
   },
   plugins: [],
 } satisfies Config

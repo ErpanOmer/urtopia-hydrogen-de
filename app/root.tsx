@@ -11,10 +11,11 @@ import {
   isRouteErrorResponse,
   type ShouldRevalidateFunction,
 } from '@remix-run/react';
-import favicon from '~/assets/favicon.svg';
+import favicon from '~/assets/favicon.webp';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import Footer from '~/layout/Footer';
 
 export type RootLoader = typeof loader;
 
@@ -50,7 +51,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/webp', href: favicon },
   ];
 }
 
@@ -162,6 +163,7 @@ function Layout({children}: {children?: React.ReactNode}) {
         ) : (
           children
         )}
+        <Footer/>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>

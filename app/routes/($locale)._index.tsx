@@ -59,7 +59,7 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
 
 
-  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>Hello World</h1>;
+  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>Home Page</h1>;
 }
 
 function FeaturedCollection({
