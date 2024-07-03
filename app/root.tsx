@@ -1,5 +1,5 @@
 import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
-import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {
   Links,
   Meta,
@@ -10,12 +10,14 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   type ShouldRevalidateFunction,
+  useParams,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.webp';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import Footer from '~/layout/Footer';
+import { setLanguageTag } from "@paraglide/runtime";
 
 export type RootLoader = typeof loader;
 
@@ -61,14 +63,13 @@ export async function loader(args: LoaderFunctionArgs) {
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
   const {storefront, env} = args.context;
 
   return defer(
     {
       ...deferredData,
       ...criticalData,
-      selectedLocale: storefront.i18n,
+      selectedLocale: args.context.storefront.i18n,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
       shop: getShopAnalytics({
         storefront,
@@ -78,13 +79,8 @@ export async function loader(args: LoaderFunctionArgs) {
         checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
         storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
       },
-    },
-    {
-      headers: {
-        'Set-Cookie': await args.context.session.commit(),
-      },
-    },
-  );
+    }
+  )
 }
 
 /**
@@ -141,7 +137,7 @@ function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
 
-  console.log(data)
+  setLanguageTag(data?.selectedLocale.language.toLowerCase() as any)
 
   return (
     <html lang={ data?.selectedLocale.language }>

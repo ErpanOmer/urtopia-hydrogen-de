@@ -1,8 +1,13 @@
-import {defineConfig} from 'vite';
-import {hydrogen} from '@shopify/hydrogen/vite';
-import {oxygen} from '@shopify/mini-oxygen/vite';
-import {vitePlugin as remix} from '@remix-run/dev';
+import path from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vite';
+import { hydrogen } from '@shopify/hydrogen/vite';
+import { installGlobals } from '@remix-run/node';
+import { oxygen } from '@shopify/mini-oxygen/vite';
+import { paraglide } from '@inlang/paraglide-vite';
+import { vitePlugin as remix } from '@remix-run/dev';
+
+installGlobals();
 
 export default defineConfig({
   plugins: [
@@ -17,6 +22,10 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
+    paraglide({
+      project: "./i18n.inlang", //Path to your inlang project 
+      outdir: "./paraglide", //Where you want the generated files to be placed
+    }),
   ],
   build: {
     // Allow a strict Content-Security-Policy
@@ -38,4 +47,9 @@ export default defineConfig({
       include: [],
     },
   },
+  resolve: {
+    alias: {
+      '@paraglide': path.resolve(__dirname, './paraglide')
+    }
+  }
 });

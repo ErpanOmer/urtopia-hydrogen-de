@@ -29,12 +29,24 @@ export function getPrefixPathWithLocale(language: string = '', to: string | any 
 
   // 如果不是string
   if (typeof to !== 'string') {
-      return to
+    return to
+  }
+
+  const httpPattern = /^(http|https):\/\/(\S+)$/
+
+  // 如果是http/s 协议开头的
+  if (httpPattern.test(to)) {
+    return to
   }
 
   // 德语不用处理
   if (language === 'de') {
-      return to
+    return to.replace(/^\/en($|\/)/, '/')
+  }
+
+  // 如果 en 开头的就不用处理
+  if (/^\/en($|\/)/.test(to) || to.startsWith(language) || to.startsWith(`/${language}`)) {
+    return to
   }
 
   return `${language}${to.startsWith('/') ? to : '/' + to}`
