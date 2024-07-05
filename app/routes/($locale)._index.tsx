@@ -1,16 +1,19 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
-import {Suspense} from 'react';
+import {Suspense, useContext} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import * as m from '@paraglide/messages';
+import useTranslationClient from '~/hooks/useTranslationClient';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
+
+
+export const handle = { i18n: ["translation"] };
 
 export async function loader(args: LoaderFunctionArgs) {
   // Start fetching non-critical data without blocking time to first byte
@@ -58,9 +61,9 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
+  const { t } = useTranslationClient()
 
-
-  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>{ m.description()}</h1>;
+  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>{t('homepage:banner')}</h1>;
 }
 
 function FeaturedCollection({

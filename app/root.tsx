@@ -17,7 +17,7 @@ import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import Footer from '~/layout/Footer';
-import { setLanguageTag } from "@paraglide/runtime";
+import useTranslationServer from './hooks/useTranslationServer';
 
 export type RootLoader = typeof loader;
 
@@ -64,12 +64,16 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
   const {storefront, env} = args.context;
+  const selectedLocale = args.context.storefront.i18n
+
+  const { translation, t }  = useTranslationServer(args)
 
   return defer(
     {
       ...deferredData,
       ...criticalData,
-      selectedLocale: args.context.storefront.i18n,
+      translation,
+      selectedLocale,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
       shop: getShopAnalytics({
         storefront,
@@ -136,11 +140,10 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
-
-  setLanguageTag(data?.selectedLocale.language.toLowerCase() as any)
+  const lang = data?.selectedLocale.language.toLowerCase() as any;
 
   return (
-    <html lang={ data?.selectedLocale.language }>
+    <html lang={ lang }>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

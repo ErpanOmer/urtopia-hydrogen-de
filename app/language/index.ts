@@ -1,3 +1,6 @@
+const langRegexp = /^\/(en|de)($|\/)/
+const httpPattern = /^(http|https):\/\/(\S+)$/
+
 export const countries: Record<string, I18nLocale> = {
   default: {
     language: 'DE',
@@ -13,10 +16,15 @@ export const countries: Record<string, I18nLocale> = {
 
 
 export function getLocaleFromRequest(request: Request): I18nLocale {
-
   const url = new URL(request.url);
 
-  return /^\/en($|\/)/.test(url.pathname) ? countries['en-de'] : countries['default']
+  return langRegexp.test(url.pathname) ? countries['en-de'] : countries['default']
+}
+
+export function getPathnameFromRequest(request: Request): string {
+  const url = new URL(request.url)
+  
+  return url.pathname.replace(langRegexp, '/')
 }
 
 
@@ -32,22 +40,13 @@ export function getPrefixPathWithLocale(language: string = '', to: string | any 
     return to
   }
 
-  const httpPattern = /^(http|https):\/\/(\S+)$/
-
   // 如果是http/s 协议开头的
   if (httpPattern.test(to)) {
     return to
   }
 
-  // 德语不用处理
-  if (language === 'de') {
-    return to.replace(/^\/en($|\/)/, '/')
-  }
+  // 清除语言locale
+  to = to.replace(langRegexp, '/')
 
-  // 如果 en 开头的就不用处理
-  if (/^\/en($|\/)/.test(to) || to.startsWith(language) || to.startsWith(`/${language}`)) {
-    return to
-  }
-
-  return `${language}${to.startsWith('/') ? to : '/' + to}`
+  return (language === 'de' ? '' : '/' + language) + to
 }

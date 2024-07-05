@@ -4,7 +4,6 @@ import { defineConfig } from 'vite';
 import { hydrogen } from '@shopify/hydrogen/vite';
 import { installGlobals } from '@remix-run/node';
 import { oxygen } from '@shopify/mini-oxygen/vite';
-import { paraglide } from '@inlang/paraglide-vite';
 import { vitePlugin as remix } from '@remix-run/dev';
 
 installGlobals();
@@ -22,10 +21,6 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
-    paraglide({
-      project: "./i18n.inlang", //Path to your inlang project 
-      outdir: "./paraglide", //Where you want the generated files to be placed
-    }),
   ],
   build: {
     // Allow a strict Content-Security-Policy
@@ -44,12 +39,12 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: [],
+      include: ['remix-i18next/server', 'react-i18next'],
     },
   },
   resolve: {
     alias: {
-      '@paraglide': path.resolve(__dirname, './paraglide')
+      '@locals': path.resolve(__dirname, './public/locales')
     }
   }
 });

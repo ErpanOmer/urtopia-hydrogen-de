@@ -1,4 +1,4 @@
-{
+export default {
     "title": "Remix web example",
     "description": "This is a simple example of how to use Remix to create a web app."
 }

@@ -1,10 +1,13 @@
-import type { EntryContext, AppLoadContext } from '@shopify/remix-oxygen';
+import i18nServer from './language/i18n.server';
+import isbot from 'isbot';
+import { createContentSecurityPolicy } from '@shopify/hydrogen';
+import { I18nextProvider } from 'react-i18next';
 import { redirect } from '@shopify/remix-oxygen';
 import { RemixServer } from '@remix-run/react';
-import isbot from 'isbot';
 import { renderToReadableStream } from 'react-dom/server';
-import { createContentSecurityPolicy } from '@shopify/hydrogen';
-import { getPrefixPathWithLocale } from '~/language';
+import type { EntryContext, AppLoadContext } from '@shopify/remix-oxygen';
+import { getPrefixPathWithLocale, getPathnameFromRequest } from '~/language';
+
 
 export default async function handleRequest(
   request: Request,
@@ -13,6 +16,7 @@ export default async function handleRequest(
   remixContext: EntryContext,
   context: AppLoadContext,
 ) {
+
   const { nonce, header, NonceProvider } = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
@@ -21,9 +25,11 @@ export default async function handleRequest(
   });
 
   const body = await renderToReadableStream(
-    <NonceProvider>
-      <RemixServer context={remixContext} url={request.url} />
-    </NonceProvider>,
+    <I18nextProvider i18n={await i18nServer(request, context.storefront.i18n)}>
+      <NonceProvider>
+        <RemixServer context={remixContext} url={request.url} />
+      </NonceProvider>
+    </I18nextProvider>,
     {
       nonce,
       signal: request.signal,
@@ -48,7 +54,7 @@ export default async function handleRequest(
   } else {
     // 如果session中已存在 selectedLocale, 强制重定向到对应的语言
     if (context.storefront.i18n.language !== selectedLocale.language) {
-      return redirect(getPrefixPathWithLocale(selectedLocale.language, new URL(request.url).pathname))
+      return redirect(getPrefixPathWithLocale(selectedLocale.language, getPathnameFromRequest(request)))
     }
   }
 

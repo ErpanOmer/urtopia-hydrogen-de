@@ -17,7 +17,7 @@
     "types": ["@shopify/oxygen-workers-types"],
     "paths": {
       "~/*": ["app/*"],
-      "@paraglide/*": ["paraglide/*"]
+      "@locales/*": ["public/locales/*"]
     },
     "noEmit": true
   }
