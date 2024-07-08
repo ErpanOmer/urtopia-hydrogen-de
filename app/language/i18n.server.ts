@@ -16,7 +16,7 @@ export default async function (request: Request, i18n: I18nLocale) {
     .use(initReactI18next)
     .use(resourcesToBackend((language: string, namespace: string) => {
         /* @vite-ignore */
-        return import(`/public/locales/${language}/${namespace}.js`)
+        return import(import.meta.env.DEV ? `/public/locales/${language}/${namespace}.js` : `./locales/${language}/${namespace}.js`)
     }))
     .init({
         ...config,
