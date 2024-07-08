@@ -17,7 +17,7 @@
     "types": ["@shopify/oxygen-workers-types"],
     "paths": {
       "~/*": ["app/*"],
-      "@locales/*": ["public/locales/*"]
+      "@locales/*": ["app/language/locales/*"]
     },
     "noEmit": true
   }
