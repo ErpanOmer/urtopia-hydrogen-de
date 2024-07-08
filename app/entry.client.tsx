@@ -9,6 +9,7 @@ import i18n from '~/language/config'
 startTransition(() => {
   i18next.use(initReactI18next).use(I18nextBrowserLanguageDetector).init({
     ...i18n,
+    resources: {},
     detection: {
       // Here only enable htmlTag detection, we'll detect the language only
       // server-side with remix-i18next, by using the `<html lang>` attribute

@@ -17,6 +17,18 @@ export default async function handleRequest(
   context: AppLoadContext,
 ) {
 
+  const selectedLocale = context.session.get('selectedLocale')
+
+  // if not selectedLocale -> set selectedLocale for cookie
+  if (!selectedLocale) {
+    context.session.set('selectedLocale', context.storefront.i18n);
+  } else {
+    // 如果session中已存在 selectedLocale, 强制重定向到对应的语言
+    if (context.storefront.i18n.language !== selectedLocale.language) {
+      return redirect(getPrefixPathWithLocale(selectedLocale.language, getPathnameFromRequest(request)))
+    }
+  }
+
   const { nonce, header, NonceProvider } = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
@@ -43,19 +55,6 @@ export default async function handleRequest(
 
   if (isbot(request.headers.get('user-agent'))) {
     await body.allReady;
-  }
-
-
-  const selectedLocale = context.session.get('selectedLocale')
-
-  // if not selectedLocale -> set selectedLocale for cookie
-  if (!selectedLocale) {
-    context.session.set('selectedLocale', context.storefront.i18n);
-  } else {
-    // 如果session中已存在 selectedLocale, 强制重定向到对应的语言
-    if (context.storefront.i18n.language !== selectedLocale.language) {
-      return redirect(getPrefixPathWithLocale(selectedLocale.language, getPathnameFromRequest(request)))
-    }
   }
 
   responseHeaders.set('Set-Cookie', await context.session.commit());

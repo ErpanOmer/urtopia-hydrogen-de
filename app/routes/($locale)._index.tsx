@@ -61,9 +61,9 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
-  const { t } = useTranslationClient()
+  const { t } = useTranslationClient('homepage')
 
-  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>{t('homepage:banner')}</h1>;
+  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>{t('banner')}</h1>;
 }
 
 function FeaturedCollection({

@@ -12,6 +12,6 @@ export default function useTranslationServer({ request, context }: LoaderFunctio
 
     return {
         ...i18n,
-        translation: i18n.getDataByLanguage(language)
+        translation: i18n?.getDataByLanguage(language) || {}
     }
 }
