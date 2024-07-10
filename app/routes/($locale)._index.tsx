@@ -6,7 +6,6 @@ import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import useTranslationClient from '~/hooks/useTranslationClient';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -61,9 +60,8 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
-  const { t } = useTranslationClient('homepage')
 
-  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>{t('banner')}</h1>;
+  return <h1 className='sm:text-xl md:text-3xl lg:text-5xl lg:m-40'>Hello world</h1>;
 }
 
 function FeaturedCollection({

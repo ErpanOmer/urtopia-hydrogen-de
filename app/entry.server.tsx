@@ -1,4 +1,3 @@
-import i18nServer from './language/i18n.server';
 import isbot from 'isbot';
 import { createContentSecurityPolicy } from '@shopify/hydrogen';
 import { I18nextProvider } from 'react-i18next';
@@ -7,6 +6,7 @@ import { RemixServer } from '@remix-run/react';
 import { renderToReadableStream } from 'react-dom/server';
 import type { EntryContext, AppLoadContext } from '@shopify/remix-oxygen';
 import { getPrefixPathWithLocale, getPathnameFromRequest } from '~/language';
+import getNextI18n from '~/language/i18next';
 
 
 export default async function handleRequest(
@@ -16,7 +16,6 @@ export default async function handleRequest(
   remixContext: EntryContext,
   context: AppLoadContext,
 ) {
-
   const selectedLocale = context.session.get('selectedLocale')
 
   // if not selectedLocale -> set selectedLocale for cookie
@@ -37,7 +36,7 @@ export default async function handleRequest(
   });
 
   const body = await renderToReadableStream(
-    <I18nextProvider i18n={await i18nServer(request, context.storefront.i18n)}>
+    <I18nextProvider i18n={await getNextI18n(request)}>
       <NonceProvider>
         <RemixServer context={remixContext} url={request.url} />
       </NonceProvider>

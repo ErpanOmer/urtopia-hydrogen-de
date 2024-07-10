@@ -1,11 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import CenteralContent from '~/components/CenteralContent';
 import Icon from '~/components/Icon';
 import Link from '~/components/Link';
-import useTranslationClient from '~/hooks/useTranslationClient';
 
 export default function CareIcons() {
 
-    const { t } = useTranslationClient('common')
+    const { t } = useTranslation('common')
 
     return (
         <section className="bg-neutral-700">

@@ -45,6 +45,8 @@ declare global {
     country: CountryCode;
     label: string
   };
+
+  var __context_request_url: string
 }
 
 declare module '@shopify/remix-oxygen' {
