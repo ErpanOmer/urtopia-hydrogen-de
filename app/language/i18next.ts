@@ -15,12 +15,15 @@ export const instance = i18next.createInstance();
 let ready = false;
 
 export default async function getNextI18n(request: Request) {
+    console.time('getNextI18n')
+
     const locale = getLocaleFromRequest(request)
     const pathname = getPathnameFromRequest(request)
     const lng = locale.language.toLowerCase()
 
     if (ready) {
         await instance.changeLanguage(lng)
+        console.timeEnd('getNextI18n')
         return instance
     }
 
@@ -38,7 +41,7 @@ export default async function getNextI18n(request: Request) {
             return null
         }
 
-        return import(`./locales/${language}/${namespace}.js`)
+        return import(`../assets/locales/${language}/${namespace}.js`)
     }))
 
 
@@ -59,6 +62,8 @@ export default async function getNextI18n(request: Request) {
             caches: [],
         }
     })
+
+    console.timeEnd('getNextI18n')
 
     return instance
 }

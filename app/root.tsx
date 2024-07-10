@@ -160,9 +160,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
         ) : (
           children
         )}
-        <Suspense>
-          <Await resolve={data?.translation}><Footer /></Await>
-        </Suspense>
+        <Footer/>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
