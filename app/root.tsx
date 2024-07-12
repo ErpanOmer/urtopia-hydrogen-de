@@ -1,5 +1,5 @@
 import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
-import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { ActionFunctionArgs, defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
   Links,
   Meta,
@@ -22,27 +22,6 @@ import { Suspense } from 'react';
 
 export type RootLoader = typeof loader;
 
-/**
- * This is important to avoid re-fetching root queries on sub-navigations
- */
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  formMethod,
-  currentUrl,
-  nextUrl,
-}) => {
-  // revalidate when a mutation is performed e.g add to cart, login...
-  if (formMethod && formMethod !== 'GET') {
-    return true;
-  }
-
-  // revalidate when manually revalidating via useRevalidator
-  if (currentUrl.toString() === nextUrl.toString()) {
-    return true;
-  }
-
-  return false;
-};
-
 export function links() {
   return [
     { rel: 'stylesheet', href: appStyles },
@@ -56,6 +35,12 @@ export function links() {
     },
     { rel: 'icon', type: 'image/webp', href: favicon },
   ];
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const body = await request.formData()
+
+  console.log(body)
 }
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -160,7 +145,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
         ) : (
           children
         )}
-        <Footer/>
+        <Footer />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
@@ -202,3 +187,28 @@ export function ErrorBoundary() {
     </Layout>
   );
 }
+
+
+
+/**
+ * This is important to avoid re-fetching root queries on sub-navigations
+ */
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  formMethod,
+  currentUrl,
+  nextUrl,
+}) => {
+  console.log('currentUrl', currentUrl)
+
+  // revalidate when a mutation is performed e.g add to cart, login...
+  if (formMethod && formMethod !== 'GET') {
+    return true;
+  }
+
+  // revalidate when manually revalidating via useRevalidator
+  if (currentUrl.toString() === nextUrl.toString()) {
+    return true;
+  }
+
+  return false;
+};

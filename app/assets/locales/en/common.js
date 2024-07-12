@@ -4,7 +4,7 @@ export default {
     footer: {
         care: {
             care1: 'Free Shipping',
-            care2: '14 Days Free Return Return',
+            care2: '14 Days Free Return',
             care3: '2 Years Warranty',
             care4: 'Free Shipping'
         }

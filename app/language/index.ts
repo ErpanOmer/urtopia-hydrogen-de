@@ -1,7 +1,7 @@
 const langRegexp = /^\/(en|de)($|\/)/
 const httpPattern = /^(http|https):\/\/(\S+)$/
 
-export const countries: Record<string, I18nLocale> = {
+export const locales: Record<string, I18nLocale> = {
   default: {
     language: 'DE',
     country: 'DE',
@@ -15,13 +15,21 @@ export const countries: Record<string, I18nLocale> = {
 };
 
 
-export function getLocaleFromRequest(request: Request): I18nLocale {
+export function getLocaleFromRequest(request: Request | string): I18nLocale {
+  if (typeof request === 'string') {
+    request = new Request(request)
+  }
+
   const url = new URL(request.url);
 
-  return langRegexp.test(url.pathname) ? countries['en-de'] : countries['default']
+  return langRegexp.test(url.pathname) ? locales['en-de'] : locales['default']
 }
 
-export function getPathnameFromRequest(request: Request): string {
+export function getPathnameFromRequest(request: Request | string): string {
+  if (typeof request === 'string') {
+    request = new Request(request)
+  }
+
   const url = new URL(request.url)
   
   return url.pathname.replace(langRegexp, '/')

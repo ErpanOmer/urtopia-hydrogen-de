@@ -17,6 +17,8 @@
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.5",
     "@inlang/paraglide-vite": "^1.2.72",
     "@remix-run/react": "^2.9.2",
     "@remix-run/server-runtime": "^2.9.2",

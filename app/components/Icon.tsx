@@ -9,7 +9,19 @@ const srcSetOptions = {
     placeholderWidth: 0
 }
 
-export default function (props: HydrogenImageProps): React.ReactNode {
+interface IconProps extends HydrogenImageProps{
+    isNative?: boolean
+}
+
+export default function ({
+    isNative = false,
+    ...props
+}: IconProps): React.ReactNode {
+
+    if (isNative) {
+        return <img {...props} />
+    }
+
     return (
         <Image
             srcSetOptions={srcSetOptions}
