@@ -10,11 +10,16 @@ const srcSetOptions = {
 }
 
 interface IconProps extends HydrogenImageProps{
-    isNative?: boolean
+    isNative?: boolean,
+    key?: string,
+    width?: number | string,
+    height?: number | string
 }
 
 export default function ({
     isNative = false,
+    width = 50,
+    height = 'auto',
     ...props
 }: IconProps): React.ReactNode {
 
@@ -25,7 +30,8 @@ export default function ({
     return (
         <Image
             srcSetOptions={srcSetOptions}
-            width={50}
+            width={width}
+            height={height}
             {...props}
         />
     )

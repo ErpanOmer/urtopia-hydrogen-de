@@ -39,8 +39,9 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: ['remix-i18next/server', 'react-i18next'],
+      include: ['remix-i18next/server', 'react-i18next', 'ahooks'],
     },
+    // noExternal: ['remix-utils']
   },
   resolve: {
     alias: {

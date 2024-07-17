@@ -19,6 +19,7 @@ import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import Footer from '~/layout/Footer';
 import { Suspense } from 'react';
+import { queryFooterMenus } from './apis/menus';
 
 export type RootLoader = typeof loader;
 
@@ -44,9 +45,6 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
-
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
   const { storefront, env } = args.context;
@@ -54,7 +52,9 @@ export async function loader(args: LoaderFunctionArgs) {
 
   return defer(
     {
-      ...deferredData,
+      footer: queryFooterMenus(args.context.storefront),
+      cart: args.context.cart.get(),
+      isLoggedIn: args.context.customerAccount.isLoggedIn(),
       ...criticalData,
       selectedLocale,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
@@ -114,7 +114,7 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
       return null;
     });
   return {
-    cart: cart.get(),
+    
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
   };

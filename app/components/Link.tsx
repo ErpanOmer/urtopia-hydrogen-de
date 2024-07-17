@@ -4,7 +4,7 @@ import type { RootLoader } from '~/root';
 import { getPrefixPathWithLocale } from '~/language'
 import { isMobile } from '~/lib/tools';
 
-interface LinkProps extends RemixLinkProps {
+export interface LinkProps extends RemixLinkProps {
     isLink?: Boolean
 }
 
