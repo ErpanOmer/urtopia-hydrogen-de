@@ -22,6 +22,7 @@
     "@inlang/paraglide-vite": "^1.2.72",
     "@remix-run/react": "^2.9.2",
     "@remix-run/server-runtime": "^2.9.2",
+    "@shopify/admin-api-client": "^1.0.0",
     "@shopify/cli": "3.60.0",
     "@shopify/cli-hydrogen": "^8.1.1",
     "@shopify/hydrogen": "2024.4.5",
@@ -46,6 +47,7 @@
     "react-i18next": "^14.1.2",
     "remix-i18next": "^6.1.0",
     "remix-paraglidejs": "^1.0.1",
+    "remix-utils": "^7.6.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -16,6 +16,7 @@ import type {
   CountryCode,
 } from '@shopify/hydrogen/storefront-api-types';
 import type {AppSession} from '~/lib/session';
+import { type AdminApiClient } from '@shopify/admin-api-client';
 
 declare global {
   /**
@@ -35,6 +36,7 @@ declare global {
     PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID: string;
     PUBLIC_CUSTOMER_ACCOUNT_API_URL: string;
     PUBLIC_CHECKOUT_DOMAIN: string;
+    ADMIN_API_ACCESS_TOKEN: string;
   }
 
   /**
@@ -59,6 +61,7 @@ declare module '@shopify/remix-oxygen' {
     storefront: Storefront<I18nLocale>;
     customerAccount: CustomerAccount;
     session: AppSession;
+    admin: AdminApiClient,
     waitUntil: ExecutionContext['waitUntil'];
   }
 

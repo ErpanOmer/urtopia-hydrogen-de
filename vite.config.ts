@@ -39,7 +39,7 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: ['remix-i18next/server', 'react-i18next', 'ahooks'],
+      include: ['remix-i18next/server', 'react-i18next', 'ahooks', "@shopify/admin-api-client"],
     },
     // noExternal: ['remix-utils']
   },

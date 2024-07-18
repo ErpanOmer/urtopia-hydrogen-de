@@ -17,6 +17,7 @@ import {
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
 import { getLocaleFromRequest } from '~/language/index'
+import {createAdminApiClient} from '@shopify/admin-api-client';
 
 /**
  * Export a fetch handler in module format.
@@ -78,6 +79,12 @@ export default {
         cartQueryFragment: CART_QUERY_FRAGMENT,
       });
 
+      const admin = createAdminApiClient({
+        storeDomain: env.PUBLIC_STORE_DOMAIN,
+        apiVersion: '2024-07',
+        accessToken: env.ADMIN_API_ACCESS_TOKEN
+      });
+
       /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
@@ -91,6 +98,7 @@ export default {
           customerAccount,
           cart,
           env,
+          admin,
           waitUntil,
         }),
       });

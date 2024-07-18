@@ -9,8 +9,10 @@ export async function createCustomer(args: LoaderFunctionArgs) {
         mutation {
             customerCreate(input: {
                 email: "${body.get('email')}",
-                password: "123632",
-                acceptsMarketing: true,
+                emailMarketingConsent: {
+                    marketingState: SUBSCRIBED
+                },
+                tags: ["newsletter"]
             }) {
                 customer {
                     email
@@ -19,19 +21,16 @@ export async function createCustomer(args: LoaderFunctionArgs) {
     }`;
 
     try {
-        const { errors, customerCreate } = await args.context.storefront.mutate(mutation);
+        const {data, errors, extensions} = await args.context.admin.request(mutation);
 
         if (errors) {
-
-            for (const error of errors) {
-                console.error('createCustomer error', error?.message)   
-            }
+            console.error('createCustomer error', errors?.message)
 
             return errors
         }
 
-        return customerCreate;
-        
+        return data?.customerCreate;
+
     } catch (error) {
         console.error('createCustomer error', error)
 

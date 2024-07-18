@@ -50,9 +50,6 @@ export async function loader(args: LoaderFunctionArgs) {
   const { storefront, env } = args.context;
   const selectedLocale = args.context.storefront.i18n
 
-  console.log(args.context.storefront);
-  
-
   return defer(
     {
       footer: queryFooterMenus(args.context.storefront),
