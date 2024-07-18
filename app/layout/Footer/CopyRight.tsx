@@ -6,8 +6,6 @@ export default function CopyRight() {
     const { header, footer } = useRouteLoaderData<any>('root');
     const year = new Date().getFullYear()
 
-    console.log('footer', footer)
-
     return (
         <div className="flex flex-wrap-reverse items-start gap-3 sm:gap-4 sm:ml-4">
             <Link to="/" className="text-sm hover:underline underline-offset-4 opacity-60 hover:opacity-90">

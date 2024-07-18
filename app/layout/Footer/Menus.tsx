@@ -5,6 +5,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 import { Suspense } from 'react';
 import Link from '~/components/Link';
 import useBreakPoint from '~/hooks/useBreakPoint';
+import FollowUs from './FollowUs';
 
 export default function Menus() {
   const {footer} = useRouteLoaderData<any>('root');
@@ -49,6 +50,7 @@ export default function Menus() {
                       </DisclosurePanel>
                     </Disclosure>
                   ))}
+                  <FollowUs/>
               </div>
             )}
           </ClientOnly>
