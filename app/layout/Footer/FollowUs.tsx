@@ -1,31 +1,52 @@
 import Link from '~/components/Link';
 import {useFetcher} from '@remix-run/react';
-import {ChevronRightIcon} from '@heroicons/react/24/solid';
+import {ChevronRightIcon, CheckCircleIcon} from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import {useEffect, useState} from 'react';
+import {isString, isNull} from '~/lib/tools';
+import useBreakPoint from '~/hooks/useBreakPoint';
+import { useTranslation } from 'react-i18next';
 
 export default function FollowUs() {
-  const { Form, data } = useFetcher<any>();
+  const point = useBreakPoint();
+  const {Form, data} = useFetcher<any>();
+  const [hide, setHide] = useState<boolean>(true);
+  const [text, setText] = useState<string>('Thanks for subscribing !');
+  const { t } = useTranslation()
 
-  console.log(data)
+  useEffect(() => {
+    if (isNull(data?.customer)) {
+      setText(t('footer.Newsletter.already'));
+      setHide(false);
+    }
 
-  if (data?.customer?.email) {
-    console.log('success')
-  }
+    if (isString(data?.customer?.email)) {
+      setText(t('footer.Newsletter.thank'));
+      setHide(false);
+    }
 
+    
+  }, [data]);
+
+  useEffect(() => {
+    if (!hide) {
+      setTimeout(setHide, 15000, true);
+    }
+  }, [hide]);
 
   return (
-    <div className="space-y-4 max-w-80">
-      <h4 className="text-xl">Newsletter Sign-up</h4>
-      <p>
+    <div className="space-y-2 sm:space-y-4 max-w-80 order-first sm:order-last mb-3 sm:mb-0">
+      <h4 className="text-xl">{ t('footer.Newsletter.title')}</h4>
+      <p className="text-sm md:text-base">
         <span>
-          Join over 200,000 members and receive updates and special offers.
+        { t('footer.Newsletter.join')}
         </span>
       </p>
       <Form method="post" action="/api/createCustomer" autoComplete="off">
         <input type="hidden" name="form_type" value="customer" />
         <input type="hidden" name="utf8" value="✓" />
         <input type="hidden" name="tags" value="newsletter" />
-        <div className="relative pb-12">
+        <div className="relative pb-8 md:pb-12">
           <input
             type="email"
             className={clsx(
@@ -36,13 +57,24 @@ export default function FollowUs() {
             placeholder="Email"
             required
           />
-          <button type="submit" className="absolute top-3 right-2 size-6 cursor-pointer"> 
+          <button
+            type="submit"
+            className="absolute top-3 right-2 size-6 cursor-pointer"
+          >
             <ChevronRightIcon />
           </button>
+          <div
+            className={clsx(
+              'flex items-center justify-start absolute text-sm w-full bottom-1 md:bottom-3',
+              hide && 'hidden',
+            )}
+          >
+            <CheckCircleIcon className="text-green-600 max-w-6 mr-2" />
+            <span className="whitespace-nowrap">{text}</span>
+          </div>
         </div>
       </Form>
-      <div className="flex-1"></div>
-      <h4 className="text-xl">Follow us</h4>
+      <h4 className={clsx('md:text-xl text-base')}>{t('footer.Newsletter.us')}</h4>
       <div className="flex space-x-6 items-center">
         <Link
           className="flex-1 max-w-5"
@@ -64,7 +96,7 @@ export default function FollowUs() {
         <Link
           className="flex-1 max-w-5"
           target="_blank"
-          to="https://twitter.com/newurtopia_us"
+          to="https://www.facebook.com/UrtopiaEbike/"
         >
           <svg
             aria-hidden="true"
@@ -81,7 +113,7 @@ export default function FollowUs() {
         <Link
           className="flex-1 max-w-5"
           target="_blank"
-          to="https://twitter.com/newurtopia_us"
+          to="https://www.instagram.com/newurtopia/"
         >
           <svg
             aria-hidden="true"
@@ -102,7 +134,7 @@ export default function FollowUs() {
         <Link
           className="flex-1 max-w-5"
           target="_blank"
-          to="https://twitter.com/newurtopia_us"
+          to="https://www.youtube.com/channel/UCsDmgIsvhCZyyPAWvAhKcDQ"
         >
           <svg
             aria-hidden="true"

@@ -14,7 +14,7 @@ export default function Footer() {
                 <Menus/>
                 <LeasingIcons />
                 <PaymentIcons />
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0 mt-6">
+                <div className="flex flex-col mt-6 items-center justify-center sm:flex-row md:justify-start">
                     <LangSelector />
                     <CopyRight />
                 </div>

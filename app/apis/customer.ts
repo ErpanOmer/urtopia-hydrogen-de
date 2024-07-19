@@ -21,7 +21,7 @@ export async function createCustomer(args: LoaderFunctionArgs) {
     }`;
 
     try {
-        const {data, errors, extensions} = await args.context.admin.request(mutation);
+        const { data, errors, extensions } = await args.context.admin.request(mutation);
 
         if (errors) {
             console.error('createCustomer error', errors?.message)

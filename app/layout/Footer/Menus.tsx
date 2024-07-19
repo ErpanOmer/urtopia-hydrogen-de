@@ -36,6 +36,7 @@ export default function Menus() {
                       </DisclosureButton>
                       <DisclosurePanel
                         transition
+                        unmount={false}
                         className="flex flex-col text-sm font-medium origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0 space-y-3 pt-4 mb-2"
                       >
                         {value.items.map((item: any) => (
