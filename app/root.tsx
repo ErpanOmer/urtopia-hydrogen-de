@@ -18,8 +18,9 @@ import appStyles from '~/styles/app.css?url';
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import Footer from '~/layout/Footer';
+import Header from './layout/Header';
 import { Suspense } from 'react';
-import { queryFooterMenus } from './apis/menus';
+import { queryFooterMenus, queryHeader } from './apis/menus';
 
 export type RootLoader = typeof loader;
 
@@ -49,12 +50,12 @@ export async function loader(args: LoaderFunctionArgs) {
   const criticalData = await loadCriticalData(args);
   const { storefront, env } = args.context;
   const selectedLocale = args.context.storefront.i18n
-
   return defer(
     {
       footer: queryFooterMenus(args.context.storefront),
       cart: args.context.cart.get(),
       isLoggedIn: args.context.customerAccount.isLoggedIn(),
+      ...await queryHeader(args.context.storefront),
       ...criticalData,
       selectedLocale,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
@@ -92,34 +93,6 @@ async function loadCriticalData({ context }: LoaderFunctionArgs) {
   };
 }
 
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({ context }: LoaderFunctionArgs) {
-  const { storefront, customerAccount, cart } = context;
-
-  // defer the footer query (below the fold)
-  const footer = storefront
-    .query(FOOTER_QUERY, {
-      cache: storefront.CacheLong(),
-      variables: {
-        footerMenuHandle: 'footer', // Adjust to your footer menu handle
-      },
-    })
-    .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
-      console.error(error);
-      return null;
-    });
-  return {
-    
-    isLoggedIn: customerAccount.isLoggedIn(),
-    footer,
-  };
-}
-
 function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
@@ -134,6 +107,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Header/>
         {data ? (
           <Analytics.Provider
             cart={data.cart}
@@ -145,7 +119,6 @@ function Layout({ children }: { children?: React.ReactNode }) {
         ) : (
           children
         )}
-        <Footer />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>

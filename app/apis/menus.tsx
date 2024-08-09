@@ -29,6 +29,24 @@ const MENU_FRAGMENT = `#graphql
 ` as const;
 
 
+const SHOP = `#graphql
+  fragment Shop on Shop {
+    id
+    name
+    description
+    primaryDomain {
+      url
+    }
+    brand {
+      logo {
+        image {
+          url
+        }
+      }
+    }
+  }` as const;
+
+
 
 export async function queryFooterMenus(storefront: Storefront) {
   const handles = ['4-0-explore', '4-0-customer-service', '4-0-about', 'footer',]
@@ -46,4 +64,25 @@ export async function queryFooterMenus(storefront: Storefront) {
         `
 
   return storefront.query(FOOTER_QUERY, { cache: storefront.CacheLong() })
+}
+
+
+export async function queryHeader (storefront: Storefront) {
+  
+  const HEADER_QUERY= `#graphql
+      query Header(
+        $country: CountryCode
+        $language: LanguageCode
+      ) @inContext(language: $language, country: $country) {
+        shopInfo: shop {
+          ...Shop
+        }
+        menu(handle: "4-0-main-menu") {
+          ...Menu
+        }
+      }
+      ${SHOP}
+      ${MENU_FRAGMENT}`
+
+      return storefront.query(HEADER_QUERY, { cache: storefront.CacheLong() })
 }

@@ -6,7 +6,7 @@ import { __INTERNAL_CHANGE_LANGUAGE } from '~/apis/internal';
 import useInternalFetcher from '~/hooks/useInternalFetcher';
 import Select from '~/components/Select';
 
-export default function LangSelector() {
+export default function LangSelector(props: any) {
     const [options] = useState(() => {
 
         const options = []
@@ -39,5 +39,5 @@ export default function LangSelector() {
         request(__INTERNAL_CHANGE_LANGUAGE, { language: event.target.value })
     }
 
-    return <Select name="language" value={value} onChange={onchange} options={options}/>
+    return <Select name="language" value={value} onChange={onchange} options={options} {...props}/>
 }

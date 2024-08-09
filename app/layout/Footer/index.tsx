@@ -8,7 +8,7 @@ import Menus from './Menus';
 
 export default function Footer() {
     return (
-        <footer>
+        <footer className="bg-black text-white">
             <CareIcons />
             <CenteralContent className="py-6 sm:py-8">
                 <Menus/>
